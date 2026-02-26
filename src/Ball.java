@@ -1,6 +1,6 @@
 import java.awt.*;
 
-public class Pig {
+public class Ball {
 
     public String name;
     public int xpos, ypos;
@@ -10,7 +10,7 @@ public class Pig {
     public Rectangle rect;
     public int health = 100;
 
-    public Pig(String pName, int pXpos, int pYpos, double psuccess) {
+    public Ball(String pName, int pXpos, int pYpos, double psuccess) {
         name = pName;
         xpos = pXpos;
         ypos = pYpos;
@@ -22,11 +22,19 @@ public class Pig {
         rect = new Rectangle(xpos, ypos, width, height);
     }
 
-    public void move() {
+
+    public void bounce(int screenWidth, int screenHeight) {
         xpos += dx;
         ypos += dy;
-    }
 
+        if (xpos <= 0 || xpos + width >= screenWidth) {
+            dx *= -1;
+        }
+
+        if (ypos <= 0 || ypos + height >= screenHeight) {
+            dy *= -1;
+        }
+    }
     public void updateRect() {
         rect.setLocation(xpos, ypos);
     }

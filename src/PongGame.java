@@ -17,17 +17,14 @@ public class PongGame implements Runnable, KeyListener {
     BufferStrategy bufferStrategy;
 
     // Game objects
-    Pig piggy;
-    Truck truck;
-    Rocket rocket;
-
-    Image truckImg;
-    Truck[] trucks;
+    Ball ball;
+    Brick1 brick1;
+    Brick2 brick2;
 
     // Images
-    Image pigImg;;
-    Image rocketImg;
-    Image porkImg;
+    Image Brick1Img;;
+    Image Brick2Img;
+    Image BallImg;
     Image bgImage;
 
     // Input
@@ -47,21 +44,21 @@ public class PongGame implements Runnable, KeyListener {
     public PongGame() {
         setUpGraphics();
 
-        piggy = new Pig("pig.png", 300, 300, 0.75);
-        truck = new Truck("Truck.png", 600, 300, 0.25);
-        rocket = new Rocket("Rocket.png", 200, 500, 0.25);
+        ball = new Ball("pig.png", 300, 300, 0.75);
+        brick1 = new Brick1("Truck.png", 600, 300, 0.25);
+        brick2 = new Brick2("Rocket.png", 200, 500, 0.25);
 
-        pigImg = Toolkit.getDefaultToolkit().getImage("pig.png");
-        truckImg = Toolkit.getDefaultToolkit().getImage("Truck.png");
-        rocketImg = Toolkit.getDefaultToolkit().getImage("Rocket.png");
-        porkImg = Toolkit.getDefaultToolkit().getImage("pork.png");
+        BallImg = Toolkit.getDefaultToolkit().getImage("pig.png");
+        Brick1Img = Toolkit.getDefaultToolkit().getImage("Truck.png");
+        Brick2Img = Toolkit.getDefaultToolkit().getImage("Rocket.png");
+//        porkImg = Toolkit.getDefaultToolkit().getImage("pork.png");
         bgImage = new ImageIcon("farm.jpg").getImage();
 
-        trucks = new Truck[6];
-        for (int i = 0; i < trucks.length; i++) {
-            trucks[i] = new Truck("Truck " + i, (int) (Math.random()*WIDTH), (int)(Math.random()*HEIGHT), 0.25);
-        }
-    }
+//        trucks = new Truck[6];
+//        for (int i = 0; i < trucks.length; i++) {
+//            trucks[i] = new Truck("Truck " + i, (int) (Math.random()*WIDTH), (int)(Math.random()*HEIGHT), 0.25);
+//        }
+//    }
 
     // Game loop
     public void run() {
@@ -76,8 +73,10 @@ public class PongGame implements Runnable, KeyListener {
 
     // Movement
     public void moveThings() {
-        if (pressingKey && piggy.isAlive) {
-            piggy.move();
+        ball.bounce();
+
+        if (pressingKey) {
+            brick1.move();
         }
 
         truck.wrap(WIDTH, HEIGHT);
