@@ -14,7 +14,7 @@ public class Ball {
         name = pName;
         xpos = pXpos;
         ypos = pYpos;
-        dx = 0;
+        dx = 5;
         dy = 0;
         width = 100;
         height = 100;

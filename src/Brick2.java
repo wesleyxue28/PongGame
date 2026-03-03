@@ -21,13 +21,9 @@ public class Brick2 {
         rect = new Rectangle(xpos, ypos, width, height);
     }
 
-    public void bounce(int screenWidth, int screenHeight) {
-        xpos += dx;
-        ypos += dy;
+    public void ymove(int screenWidth, int screenHeight) {
 
-        if (xpos <= 0 || xpos + width >= screenWidth) {
-            dx *= -1;
-        }
+        ypos += dy;
 
         if (ypos <= 0 || ypos + height >= screenHeight) {
             dy *= -1;

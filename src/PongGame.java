@@ -30,9 +30,6 @@ public class PongGame implements Runnable, KeyListener {
     // Input
     boolean pressingKey = false;
 
-    // Collision flags
-    boolean pigTruckCrash = true;
-    boolean pigRocketCrash = true;
 
     // Main
     public static void main(String[] args) {
@@ -48,24 +45,22 @@ public class PongGame implements Runnable, KeyListener {
         brick1 = new Brick1("Truck.png", 600, 300, 0.25);
         brick2 = new Brick2("Rocket.png", 200, 500, 0.25);
 
-        BallImg = Toolkit.getDefaultToolkit().getImage("pig.png");
-        Brick1Img = Toolkit.getDefaultToolkit().getImage("Truck.png");
-        Brick2Img = Toolkit.getDefaultToolkit().getImage("Rocket.png");
+        BallImg = Toolkit.getDefaultToolkit().getImage("ball.jpg");
+        Brick1Img = Toolkit.getDefaultToolkit().getImage("Brick1.png");
+        Brick2Img = Toolkit.getDefaultToolkit().getImage("Brick2.png");
 //        porkImg = Toolkit.getDefaultToolkit().getImage("pork.png");
-        bgImage = new ImageIcon("farm.jpg").getImage();
+        bgImage = new ImageIcon("bgimg.jpg").getImage();
 
 //        trucks = new Truck[6];
 //        for (int i = 0; i < trucks.length; i++) {
 //            trucks[i] = new Truck("Truck " + i, (int) (Math.random()*WIDTH), (int)(Math.random()*HEIGHT), 0.25);
 //        }
-//    }
+    }
 
     // Game loop
     public void run() {
         while (true) {
             moveThings();
-            checkPigTruckCollision();
-            checkPigRocketCollision();
             render();
             pause(30);
         }
@@ -73,62 +68,40 @@ public class PongGame implements Runnable, KeyListener {
 
     // Movement
     public void moveThings() {
-        ball.bounce();
+
+        ball.bounce(WIDTH, HEIGHT);
 
         if (pressingKey) {
             brick1.move();
         }
 
-        truck.wrap(WIDTH, HEIGHT);
-        Brick1.bounce(WIDTH, HEIGHT);
+        brick2.ymove(WIDTH, HEIGHT);
 
-        piggy.updateRect();
-        Brick1.updateRect();
-        Brick2.updateRect();
-
-        for (int i = 0; i < trucks.length; i++) {
-           trucks[i].wrap(WIDTH, HEIGHT);
-        }
+        ball.updateRect();
+        brick1.updateRect();
+        brick2.updateRect();
     }
+//        for (int i = 0; i < trucks.length; i++) {
+//           trucks[i].wrap(WIDTH, HEIGHT);
+//        }
+//    }
 
-    // Interaction 1: Pig & Truck
+    // Interaction 1: Ball & Brick1
     public void checkPigTruckCollision() {
-        if (piggy.rect.intersects(truck.rect) && pigTruckCrash) {
+        if (ball.rect.intersects(brick1.rect); {
 
-            pigTruckCrash = false;
-            piggy.health -= 5;
+            ball.dx *= -1;
+            ball.dy *= -1;
 
-
-            if (Math.random() < 0.5) {
-                piggy.dx *= -1;
-            } else {
-                piggy.dy *= -1;
-            }
-
-            truck.width += 10;
-            truck.height += 10;
-        }
-
-        if (!piggy.rect.intersects(truck.rect)) {
-            pigTruckCrash = true;
-        }
+    }
     }
 
     // Interaction 2: Pig & Rocket
     public void checkPigRocketCollision() {
-        if (piggy.rect.intersects(rocket.rect) && pigRocketCrash) {
+        if (ball.rect.intersects(brick2.rect)) {
 
-            pigRocketCrash = false;
-            piggy.health -= 5;
-
-            piggy.dx *= -1;
-            piggy.dy *= -1;
-            rocket.dx *= -1;
-            rocket.dy *= -1;
-        }
-
-        if (!piggy.rect.intersects(rocket.rect)) {
-            pigRocketCrash = true;
+            ball.dx *= -1;
+            ball.dy *= -1;
         }
     }
 
@@ -139,24 +112,15 @@ public class PongGame implements Runnable, KeyListener {
         g.clearRect(0, 0, WIDTH, HEIGHT);
         g.drawImage(bgImage, 0, 0, WIDTH, HEIGHT, null);
 
-        for (int i = 0; i < trucks.length; i++) {
-            g.drawImage(truckImg, trucks[i].xpos, trucks[i].ypos, WIDTH, HEIGHT, null);
-        }
 
         // Health bar
-        piggy.health = Math.max(0, piggy.health);
-        g.setColor(Color.PINK);
-        g.fillRect(800, 20, 15, piggy.health);
 
         // Draw characters
-        if (piggy.isAlive) {
-            g.drawImage(pigImg, piggy.xpos, piggy.ypos, piggy.width, piggy.height, null);
-        } else {
-            g.drawImage(porkImg, piggy.xpos, piggy.ypos, piggy.width, piggy.height, null);
-        }
 
-        g.drawImage(truckImg, truck.xpos, truck.ypos, truck.width, truck.height, null);
-        g.drawImage(rocketImg, rocket.xpos, rocket.ypos, rocket.width, rocket.height, null);
+            g.drawImage(BallImg, ball.xpos, ball.ypos, ball.width, ball.height, null);
+
+        g.drawImage(Brick1Img, brick1.xpos, brick1.ypos, brick1.width, brick1.height, null);
+        g.drawImage(Brick2Img, brick2.xpos, brick2.ypos, brick2.width, brick2.height, null);
 
         g.dispose();
         bufferStrategy.show();
@@ -198,20 +162,20 @@ public class PongGame implements Runnable, KeyListener {
         pressingKey = true;
 
         if (e.getKeyCode() == KeyEvent.VK_UP) {
-            piggy.dx = 0;
-            piggy.dy = -10;
+            ball.dx = 0;
+            ball.dy = -10;
         }
         if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-            piggy.dx = 0;
-            piggy.dy = 10;
+            ball.dx = 0;
+            ball.dy = 10;
         }
         if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-            piggy.dx = -10;
-            piggy.dy = 0;
+            ball.dx = -10;
+            ball.dy = 0;
         }
         if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-            piggy.dx = 10;
-            piggy.dy = 0;
+            ball.dx = 10;
+            ball.dy = 0;
         }
     }
 
