@@ -13,10 +13,10 @@ public class Brick1 {
         name = pName;
         xpos = pXpos;
         ypos = pYpos;
-        dx = 6;
-        dy = 6;
-        width = 100;
-        height = 100;
+        dx = 0;
+        dy = 0;
+        width = 50;
+        height = 200;
         isAlive = true;
         rect = new Rectangle(xpos, ypos, width, height);
     }

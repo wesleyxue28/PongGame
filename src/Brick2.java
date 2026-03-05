@@ -15,18 +15,20 @@ public class Brick2 {
         ypos = pYpos;
         dx = (int)(Math.random()*11)-5;
         dy = 0;
-        width = 100;
-        height = 100;
+        width = 50;
+        height = 200;
         isAlive = true;
         rect = new Rectangle(xpos, ypos, width, height);
     }
 
-    public void ymove(int screenWidth, int screenHeight) {
+    public void ybounce (int screenwidth, int screenheight) {
 
         ypos += dy;
 
-        if (ypos <= 0 || ypos + height >= screenHeight) {
-            dy *= -1;
+        for (int x = 0; x < 200; x++){
+            if (ypos <= 0 || ypos + height >= 1000) {
+                dy *= -1;
+            }
         }
     }
 

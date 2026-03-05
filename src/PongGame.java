@@ -22,7 +22,8 @@ public class PongGame implements Runnable, KeyListener {
     Brick2 brick2;
 
     // Images
-    Image Brick1Img;;
+    Image Brick1Img;
+    ;
     Image Brick2Img;
     Image BallImg;
     Image bgImage;
@@ -41,15 +42,15 @@ public class PongGame implements Runnable, KeyListener {
     public PongGame() {
         setUpGraphics();
 
-        ball = new Ball("pig.png", 300, 300, 0.75);
-        brick1 = new Brick1("Truck.png", 600, 300, 0.25);
-        brick2 = new Brick2("Rocket.png", 200, 500, 0.25);
+        ball = new Ball("ball.png", 300, 300, 0.75);
+        brick1 = new Brick1("Brick1.png", 600, 300, 0.25);
+        brick2 = new Brick2("Brick2.png", 200, 500, 0.25);
 
-        BallImg = Toolkit.getDefaultToolkit().getImage("ball.jpg");
+        BallImg = Toolkit.getDefaultToolkit().getImage("ball.png");
         Brick1Img = Toolkit.getDefaultToolkit().getImage("Brick1.png");
         Brick2Img = Toolkit.getDefaultToolkit().getImage("Brick2.png");
+        bgImage = Toolkit.getDefaultToolkit().getImage("bgimg.jpg");
 //        porkImg = Toolkit.getDefaultToolkit().getImage("pork.png");
-        bgImage = new ImageIcon("bgimg.jpg").getImage();
 
 //        trucks = new Truck[6];
 //        for (int i = 0; i < trucks.length; i++) {
@@ -63,6 +64,8 @@ public class PongGame implements Runnable, KeyListener {
             moveThings();
             render();
             pause(30);
+            checkBallBrick1Collision();
+            checkBallBrick2Collision();
         }
     }
 
@@ -71,11 +74,10 @@ public class PongGame implements Runnable, KeyListener {
 
         ball.bounce(WIDTH, HEIGHT);
 
-        if (pressingKey) {
-            brick1.move();
-        }
+        brick1.move();
 
-        brick2.ymove(WIDTH, HEIGHT);
+
+        brick2.ybounce(200, 200);
 
         ball.updateRect();
         brick1.updateRect();
@@ -87,21 +89,20 @@ public class PongGame implements Runnable, KeyListener {
 //    }
 
     // Interaction 1: Ball & Brick1
-    public void checkPigTruckCollision() {
-        if (ball.rect.intersects(brick1.rect); {
+    public void checkBallBrick1Collision() {
+        if (ball.rect.intersects(brick1.rect)) {
 
             ball.dx *= -1;
-            ball.dy *= -1;
-
-    }
+            ball.dy *= 1;
+        }
     }
 
     // Interaction 2: Pig & Rocket
-    public void checkPigRocketCollision() {
+    public void checkBallBrick2Collision() {
         if (ball.rect.intersects(brick2.rect)) {
 
             ball.dx *= -1;
-            ball.dy *= -1;
+            ball.dy *= 1;
         }
     }
 
@@ -111,13 +112,17 @@ public class PongGame implements Runnable, KeyListener {
 
         g.clearRect(0, 0, WIDTH, HEIGHT);
         g.drawImage(bgImage, 0, 0, WIDTH, HEIGHT, null);
+        g.setFont(new Font("Times New Roman", Font.BOLD, 37));
+        g.setColor(new Color(255, 255, 255));
+        g.drawString("Player", 700, 50 );
+        g.drawString("Computer", 100, 50 );
 
 
         // Health bar
 
         // Draw characters
 
-            g.drawImage(BallImg, ball.xpos, ball.ypos, ball.width, ball.height, null);
+        g.drawImage(BallImg, ball.xpos, ball.ypos, ball.width, ball.height, null);
 
         g.drawImage(Brick1Img, brick1.xpos, brick1.ypos, brick1.width, brick1.height, null);
         g.drawImage(Brick2Img, brick2.xpos, brick2.ypos, brick2.width, brick2.height, null);
@@ -130,7 +135,8 @@ public class PongGame implements Runnable, KeyListener {
     public void pause(int time) {
         try {
             Thread.sleep(time);
-        } catch (InterruptedException ignored) {}
+        } catch (InterruptedException ignored) {
+        }
     }
 
     // Graphics setup
@@ -157,31 +163,44 @@ public class PongGame implements Runnable, KeyListener {
         canvas.addKeyListener(this);
     }
 
+
     // Key input
     public void keyPressed(KeyEvent e) {
-        pressingKey = true;
+        System.out.println(e.getKeyCode());
 
-        if (e.getKeyCode() == KeyEvent.VK_UP) {
-            ball.dx = 0;
-            ball.dy = -10;
+        if (e.getKeyCode() == 38) {
+            brick1.dy = -20;
         }
-        if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-            ball.dx = 0;
-            ball.dy = 10;
+        if (e.getKeyCode() == 40) {
+            brick1.dy = 20;
         }
-        if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-            ball.dx = -10;
-            ball.dy = 0;
+        if (e.getKeyCode() == 37) {
+            brick1.dx = -20;
         }
-        if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-            ball.dx = 10;
-            ball.dy = 0;
+        if (e.getKeyCode() == 39) {
+            brick1.dx = 20;
         }
     }
 
+    @Override
     public void keyReleased(KeyEvent e) {
-        pressingKey = false;
+        if (e.getKeyCode() == 38) {
+            brick1.dy = 0;
+        }
+        if (e.getKeyCode() == 40) {
+            brick1.dy = 0;
+        }
+        if (e.getKeyCode() == 37) {
+            brick1.dx = 0;
+        }
+        if (e.getKeyCode() == 39) {
+            brick1.dx = 0;
+        }
     }
 
-    public void keyTyped(KeyEvent e) {}
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+
+    }
 }
