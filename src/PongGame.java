@@ -21,6 +21,12 @@ public class PongGame implements Runnable, KeyListener {
     Brick1 brick1;
     Brick2 brick2;
 
+    int playerPoints;
+    int computerPoints;
+    String stringPlayerPoints = Integer.toString(playerPoints);
+    String stringComputerPoints = Integer.toString(computerPoints);
+
+
     // Images
     Image Brick1Img;
     ;
@@ -43,8 +49,8 @@ public class PongGame implements Runnable, KeyListener {
         setUpGraphics();
 
         ball = new Ball("ball.png", 300, 300, 0.75);
-        brick1 = new Brick1("Brick1.png", 600, 300, 0.25);
-        brick2 = new Brick2("Brick2.png", 200, 500, 0.25);
+        brick1 = new Brick1("Brick1.png", WIDTH - 50, 0, 0.25);
+        brick2 = new Brick2("Brick2.png", 50, 400, 0.25);
 
         BallImg = Toolkit.getDefaultToolkit().getImage("ball.png");
         Brick1Img = Toolkit.getDefaultToolkit().getImage("Brick1.png");
@@ -82,6 +88,7 @@ public class PongGame implements Runnable, KeyListener {
         ball.updateRect();
         brick1.updateRect();
         brick2.updateRect();
+        checkPoints();
     }
 //        for (int i = 0; i < trucks.length; i++) {
 //           trucks[i].wrap(WIDTH, HEIGHT);
@@ -92,8 +99,23 @@ public class PongGame implements Runnable, KeyListener {
     public void checkBallBrick1Collision() {
         if (ball.rect.intersects(brick1.rect)) {
 
-            ball.dx *= -1;
+            ball.dx *= -1.125;
             ball.dy *= 1;
+        }
+    }
+
+    public void checkPoints(){
+        if (ball.xpos >= 1000) {
+        computerPoints++;
+        stringComputerPoints = Integer.toString(computerPoints);
+        ball.xpos = WIDTH/2;
+        ball.dx = -10;
+        }
+        if (ball.xpos <= 0) {
+            playerPoints++;
+            stringPlayerPoints = Integer.toString(playerPoints);
+            ball.xpos = WIDTH/2;
+            ball.dx = 10;
         }
     }
 
@@ -101,8 +123,9 @@ public class PongGame implements Runnable, KeyListener {
     public void checkBallBrick2Collision() {
         if (ball.rect.intersects(brick2.rect)) {
 
-            ball.dx *= -1;
+            ball.dx *= -1.2;
             ball.dy *= 1;
+
         }
     }
 
@@ -116,6 +139,8 @@ public class PongGame implements Runnable, KeyListener {
         g.setColor(new Color(255, 255, 255));
         g.drawString("Player", 700, 50 );
         g.drawString("Computer", 100, 50 );
+        g.drawString(stringPlayerPoints, 825, 50 );
+        g.drawString(stringComputerPoints, 25, 50 );
 
 
         // Health bar
@@ -174,12 +199,12 @@ public class PongGame implements Runnable, KeyListener {
         if (e.getKeyCode() == 40) {
             brick1.dy = 20;
         }
-        if (e.getKeyCode() == 37) {
-            brick1.dx = -20;
-        }
-        if (e.getKeyCode() == 39) {
-            brick1.dx = 20;
-        }
+//        if (e.getKeyCode() == 37) {
+//            brick1.dx = -20;
+//        }
+//        if (e.getKeyCode() == 39) {
+//            brick1.dx = 20;
+//        }
     }
 
     @Override

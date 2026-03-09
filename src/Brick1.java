@@ -15,7 +15,7 @@ public class Brick1 {
         ypos = pYpos;
         dx = 0;
         dy = 0;
-        width = 50;
+        width = 25;
         height = 200;
         isAlive = true;
         rect = new Rectangle(xpos, ypos, width, height);
