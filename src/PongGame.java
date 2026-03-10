@@ -137,10 +137,10 @@ public class PongGame implements Runnable, KeyListener {
         g.drawImage(bgImage, 0, 0, WIDTH, HEIGHT, null);
         g.setFont(new Font("Times New Roman", Font.BOLD, 37));
         g.setColor(new Color(255, 255, 255));
-        g.drawString("Player", 700, 50 );
-        g.drawString("Computer", 100, 50 );
-        g.drawString(stringPlayerPoints, 825, 50 );
-        g.drawString(stringComputerPoints, 25, 50 );
+        g.drawString("Player", 700, 50);
+        g.drawString("Computer", 100, 50);
+        g.drawString(stringPlayerPoints, 825, 50);
+        g.drawString(stringComputerPoints, 25, 50);
 
 
         // Health bar
@@ -154,6 +154,15 @@ public class PongGame implements Runnable, KeyListener {
 
         g.dispose();
         bufferStrategy.show();
+
+
+        if (computerPoints == 7 || playerPoints == 7) {
+            frame.dispose();
+            frame = new JFrame("Game Over");
+            g.drawString("Game Over", 500, 400);
+
+
+        }
     }
 
 
@@ -199,11 +208,12 @@ public class PongGame implements Runnable, KeyListener {
         if (e.getKeyCode() == 40) {
             brick1.dy = 20;
         }
-//        if (e.getKeyCode() == 37) {
-//            brick1.dx = -20;
-//        }
-//        if (e.getKeyCode() == 39) {
-//            brick1.dx = 20;
+        if (e.getKeyCode() == 87) {
+            brick2.dy = -20;
+        }
+        if (e.getKeyCode() == 83) {
+            brick2.dy =20;
+        }
 //        }
     }
 
@@ -215,11 +225,11 @@ public class PongGame implements Runnable, KeyListener {
         if (e.getKeyCode() == 40) {
             brick1.dy = 0;
         }
-        if (e.getKeyCode() == 37) {
-            brick1.dx = 0;
+        if (e.getKeyCode() == 87) {
+            brick2.dy = 0;
         }
-        if (e.getKeyCode() == 39) {
-            brick1.dx = 0;
+        if (e.getKeyCode() == 83) {
+            brick2.dy = 0;
         }
     }
 
