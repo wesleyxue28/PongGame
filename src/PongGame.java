@@ -26,6 +26,9 @@ public class PongGame implements Runnable, KeyListener {
     String stringPlayerPoints = Integer.toString(playerPoints);
     String stringComputerPoints = Integer.toString(computerPoints);
 
+   int resetXPos;
+   int resetYPos;
+
 
     // Images
     Image Brick1Img;
@@ -99,7 +102,8 @@ public class PongGame implements Runnable, KeyListener {
     public void checkBallBrick1Collision() {
         if (ball.rect.intersects(brick1.rect)) {
 
-            ball.dx *= -1.125;
+            ball.dx *= -1.0125;
+
             ball.dy *= 1;
         }
     }
@@ -108,13 +112,19 @@ public class PongGame implements Runnable, KeyListener {
         if (ball.xpos >= 1000) {
         computerPoints++;
         stringComputerPoints = Integer.toString(computerPoints);
-        ball.xpos = WIDTH/2;
+        resetXPos = (int) ((Math.random()* 200+ 300));
+        resetYPos = (int) ((Math.random()* 200+ 500));
+        ball.xpos = resetXPos;
+        ball.ypos = resetYPos;
         ball.dx = -10;
         }
         if (ball.xpos <= 0) {
             playerPoints++;
             stringPlayerPoints = Integer.toString(playerPoints);
-            ball.xpos = WIDTH/2;
+            resetXPos = (int) ((Math.random()* 200+ 300));
+            resetYPos = (int) ((Math.random()* 200+ 500));
+            ball.xpos = resetXPos;
+            ball.ypos = resetYPos;
             ball.dx = 10;
         }
     }
@@ -123,7 +133,7 @@ public class PongGame implements Runnable, KeyListener {
     public void checkBallBrick2Collision() {
         if (ball.rect.intersects(brick2.rect)) {
 
-            ball.dx *= -1.2;
+            ball.dx *= -1.0125;
             ball.dy *= 1;
 
         }
@@ -141,7 +151,11 @@ public class PongGame implements Runnable, KeyListener {
         g.drawString("Computer", 100, 50);
         g.drawString(stringPlayerPoints, 825, 50);
         g.drawString(stringComputerPoints, 25, 50);
-
+        if (computerPoints == 11 || playerPoints == 11) {
+            g.drawString("Game Over", 500, 400);
+            ball.dx *= 0;
+            ball.dy *= 0;
+        }
 
         // Health bar
 
@@ -156,13 +170,7 @@ public class PongGame implements Runnable, KeyListener {
         bufferStrategy.show();
 
 
-        if (computerPoints == 7 || playerPoints == 7) {
-            frame.dispose();
-            frame = new JFrame("Game Over");
-            g.drawString("Game Over", 500, 400);
 
-
-        }
     }
 
 
@@ -202,16 +210,22 @@ public class PongGame implements Runnable, KeyListener {
     public void keyPressed(KeyEvent e) {
         System.out.println(e.getKeyCode());
 
-        if (e.getKeyCode() == 38) {
+        if (e.getKeyCode() == 38) {// up key
             brick1.dy = -20;
         }
-        if (e.getKeyCode() == 40) {
+        if (e.getKeyCode() == 40) { // down key
             brick1.dy = 20;
         }
-        if (e.getKeyCode() == 87) {
+//        if (e.getKeyCode() == 39) {
+//            brick1.dx = 20;
+//        }
+//        if (e.getKeyCode() == 37) {
+//            brick1.dx = -20;
+//        }
+        if (e.getKeyCode() == 87) { // w key
             brick2.dy = -20;
         }
-        if (e.getKeyCode() == 83) {
+        if (e.getKeyCode() == 83) { // s key
             brick2.dy =20;
         }
 //        }
@@ -225,6 +239,12 @@ public class PongGame implements Runnable, KeyListener {
         if (e.getKeyCode() == 40) {
             brick1.dy = 0;
         }
+//        if (e.getKeyCode() == 39) {
+//            brick1.dx = 0;
+//        }
+//        if (e.getKeyCode() == 37) {
+//            brick1.dx = 0;
+//        }
         if (e.getKeyCode() == 87) {
             brick2.dy = 0;
         }
