@@ -83,10 +83,11 @@ public class PongGame implements Runnable, KeyListener {
 
         ball.bounce(WIDTH, HEIGHT);
 
-        brick1.move();
-
+        brick1.wrap(WIDTH, HEIGHT);
 
         brick2.ybounce(200, 200);
+        brick2.wrap(WIDTH, HEIGHT);
+
 
         ball.updateRect();
         brick1.updateRect();
@@ -102,7 +103,7 @@ public class PongGame implements Runnable, KeyListener {
     public void checkBallBrick1Collision() {
         if (ball.rect.intersects(brick1.rect)) {
 
-            ball.dx *= -1.0125;
+            ball.dx *= -1.125;
 
             ball.dy *= 1;
         }

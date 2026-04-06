@@ -26,6 +26,16 @@ public class Brick1 {
         ypos += dy;
     }
 
+    public void wrap(int screenWidth, int screenHeight) {
+        xpos += dx;
+        ypos += dy;
+
+        if (xpos > screenWidth) xpos = -width;
+        if (xpos < -width) xpos = screenWidth;
+        if (ypos > screenHeight) ypos = -height;
+        if (ypos < -height) ypos = screenHeight;
+    }
+
     public void updateRect() {
         rect.setLocation(xpos, ypos);
     }
