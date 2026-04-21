@@ -2,9 +2,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferStrategy;
 
-public class PongGame implements Runnable, KeyListener {
+public class PongGame implements Runnable, KeyListener, MouseListener {
 
     // Window size
     final int WIDTH = 1100;
@@ -25,6 +27,7 @@ public class PongGame implements Runnable, KeyListener {
     int computerPoints;
     String stringPlayerPoints = Integer.toString(playerPoints);
     String stringComputerPoints = Integer.toString(computerPoints);
+    String stringReset = "Reset";
 
    int resetXPos;
    int resetYPos;
@@ -148,19 +151,18 @@ public class PongGame implements Runnable, KeyListener {
         g.drawImage(bgImage, 0, 0, WIDTH, HEIGHT, null);
         g.setFont(new Font("Times New Roman", Font.BOLD, 37));
         g.setColor(new Color(255, 255, 255));
-        g.drawString("Player", 700, 50);
+        g.drawString("Player", 800, 50);
         g.drawString("Computer", 100, 50);
-        g.drawString(stringPlayerPoints, 825, 50);
+        g.drawString("Reset", 475, 0);
+        g.drawString(stringPlayerPoints, 925, 50);
         g.drawString(stringComputerPoints, 25, 50);
+        g.drawString(stringReset, 475, 50);
         if (computerPoints == 11 || playerPoints == 11) {
             g.drawString("Game Over", 500, 400);
             ball.dx *= 0;
             ball.dy *= 0;
         }
 
-        // Health bar
-
-        // Draw characters
 
         g.drawImage(BallImg, ball.xpos, ball.ypos, ball.width, ball.height, null);
 
@@ -257,6 +259,33 @@ public class PongGame implements Runnable, KeyListener {
 
     @Override
     public void keyTyped(KeyEvent e) {
+
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+if (e.isAltDown() && e.getLocationOnScreen()==(475,50)){
+
+        }
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
 
     }
 }
