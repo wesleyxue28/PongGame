@@ -31,6 +31,10 @@ public class PongGame implements Runnable, KeyListener, MouseListener {
 
    int resetXPos;
    int resetYPos;
+    int resetButtonX = 450;
+    int resetButtonY = 20;
+    int resetButtonWidth = 150;
+    int resetButtonHeight = 40;
 
 
     // Images
@@ -171,7 +175,11 @@ public class PongGame implements Runnable, KeyListener, MouseListener {
 
         g.dispose();
         bufferStrategy.show();
-
+        g.setColor(new Color(100, 100, 255));
+        g.fillRect(resetButtonX, resetButtonY, resetButtonWidth, resetButtonHeight);
+        g.setColor(new Color(255, 255, 255));
+        g.drawRect(resetButtonX, resetButtonY, resetButtonWidth, resetButtonHeight);
+        g.drawString(stringReset, 475, 50);
 
 
     }
@@ -206,6 +214,8 @@ public class PongGame implements Runnable, KeyListener, MouseListener {
         bufferStrategy = canvas.getBufferStrategy();
         canvas.requestFocus();
         canvas.addKeyListener(this);
+
+        canvas.addMouseListener(this);
     }
 
 
@@ -232,6 +242,29 @@ public class PongGame implements Runnable, KeyListener, MouseListener {
             brick2.dy =20;
         }
 //        }
+    }
+
+
+    public void resetGame() {
+        playerPoints = 0;
+        computerPoints = 0;
+        stringPlayerPoints = Integer.toString(playerPoints);
+        stringComputerPoints = Integer.toString(computerPoints);
+
+        // Reset ball position
+        ball.xpos = 300;
+        ball.ypos = 300;
+        ball.dx = 10;
+        ball.dy = 10;
+
+        // Reset bricks to original positions
+        brick1.xpos = WIDTH - 50;
+        brick1.ypos = 0;
+        brick1.dy = 0;
+
+        brick2.xpos = 50;
+        brick2.ypos = 400;
+        brick2.dy = 0;
     }
 
     @Override
@@ -264,8 +297,13 @@ public class PongGame implements Runnable, KeyListener, MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-if (e.isAltDown() && e.getLocationOnScreen()==(475,50)){
+        int mouseX = e.getX();
+        int mouseY = e.getY();
 
+        if (mouseX >= resetButtonX && mouseX <= resetButtonX + resetButtonWidth &&
+                mouseY >= resetButtonY && mouseY <= resetButtonY + resetButtonHeight) {
+            resetGame();
+            System.out.println("Game Reset!");
         }
     }
 
