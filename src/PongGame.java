@@ -35,6 +35,8 @@ public class PongGame implements Runnable, KeyListener, MouseListener {
     int resetButtonY = 20;
     int resetButtonWidth = 150;
     int resetButtonHeight = 40;
+    double speedMultiplier = 1.0;
+    String stringSpeedMultiplier;
 
 
     // Images
@@ -110,7 +112,7 @@ public class PongGame implements Runnable, KeyListener, MouseListener {
     public void checkBallBrick1Collision() {
         if (ball.rect.intersects(brick1.rect)) {
 
-            ball.dx *= -1.125;
+            ball.dx *= -1.125 * speedMultiplier;
 
             ball.dy *= 1;
         }
@@ -141,7 +143,7 @@ public class PongGame implements Runnable, KeyListener, MouseListener {
     public void checkBallBrick2Collision() {
         if (ball.rect.intersects(brick2.rect)) {
 
-            ball.dx *= -1.0125;
+            ball.dx *= -1.125 * speedMultiplier;
             ball.dy *= 1;
 
         }
@@ -161,7 +163,7 @@ public class PongGame implements Runnable, KeyListener, MouseListener {
         g.drawString(stringPlayerPoints, 925, 50);
         g.drawString(stringComputerPoints, 25, 50);
         g.drawString(stringReset, 475, 50);
-        if (computerPoints == 11 || playerPoints == 11) {
+        if (computerPoints == 7 || playerPoints == 7) {
             g.drawString("Game Over", 500, 400);
             ball.dx *= 0;
             ball.dy *= 0;
@@ -241,7 +243,19 @@ public class PongGame implements Runnable, KeyListener, MouseListener {
         if (e.getKeyCode() == 83) { // s key
             brick2.dy =20;
         }
-//        }
+
+        if (e.getKeyCode() == 49) {
+            speedMultiplier = 0.25;
+            System.out.println("Speed multiplier set to: " + speedMultiplier);
+        }
+        if (e.getKeyCode() == 50) {
+            speedMultiplier = 1;
+            System.out.println("Speed multiplier set to: " + speedMultiplier);
+        }
+        if (e.getKeyCode() == 51) {
+            speedMultiplier = 1.25;
+            System.out.println("Speed multiplier set to: " + speedMultiplier);
+        }
     }
 
 
