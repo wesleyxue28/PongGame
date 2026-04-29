@@ -36,8 +36,9 @@ public class PongGame implements Runnable, KeyListener, MouseListener {
     int resetButtonWidth = 150;
     int resetButtonHeight = 40;
     double speedMultiplier = 1.0;
-    String stringSpeedMultiplier;
 
+    public SoundFile hitSound;
+    public SoundFile pointSound;
 
     // Images
     Image Brick1Img;
@@ -68,6 +69,9 @@ public class PongGame implements Runnable, KeyListener, MouseListener {
         Brick1Img = Toolkit.getDefaultToolkit().getImage("Brick1.png");
         Brick2Img = Toolkit.getDefaultToolkit().getImage("Brick2.png");
         bgImage = Toolkit.getDefaultToolkit().getImage("bgimg.jpg");
+
+        hitSound = new SoundFile("hit.wav");
+        pointSound = new SoundFile("point.wav");
 //        porkImg = Toolkit.getDefaultToolkit().getImage("pork.png");
 
 //        trucks = new Truck[6];
@@ -111,31 +115,38 @@ public class PongGame implements Runnable, KeyListener, MouseListener {
     // Interaction 1: Ball & Brick1
     public void checkBallBrick1Collision() {
         if (ball.rect.intersects(brick1.rect)) {
+            hitSound.play();
 
             ball.dx *= -1.125 * speedMultiplier;
 
             ball.dy *= 1;
+
         }
+
     }
 
     public void checkPoints(){
         if (ball.xpos >= 1000) {
         computerPoints++;
         stringComputerPoints = Integer.toString(computerPoints);
+        pointSound.play();
         resetXPos = (int) ((Math.random()* 200+ 300));
         resetYPos = (int) ((Math.random()* 200+ 500));
         ball.xpos = resetXPos;
         ball.ypos = resetYPos;
         ball.dx = -10;
+
         }
         if (ball.xpos <= 0) {
             playerPoints++;
             stringPlayerPoints = Integer.toString(playerPoints);
+            pointSound.play();
             resetXPos = (int) ((Math.random()* 200+ 300));
             resetYPos = (int) ((Math.random()* 200+ 500));
             ball.xpos = resetXPos;
             ball.ypos = resetYPos;
             ball.dx = 10;
+
         }
     }
 
@@ -144,6 +155,7 @@ public class PongGame implements Runnable, KeyListener, MouseListener {
         if (ball.rect.intersects(brick2.rect)) {
 
             ball.dx *= -1.125 * speedMultiplier;
+            hitSound.play();
             ball.dy *= 1;
 
         }
@@ -245,7 +257,7 @@ public class PongGame implements Runnable, KeyListener, MouseListener {
         }
 
         if (e.getKeyCode() == 49) {
-            speedMultiplier = 0.25;
+            speedMultiplier = 0.75;
             System.out.println("Speed multiplier set to: " + speedMultiplier);
         }
         if (e.getKeyCode() == 50) {
